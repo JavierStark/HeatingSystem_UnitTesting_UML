@@ -1,0 +1,14 @@
+
+΅	java:S116"ZRename this field "OFF_TEMPERATURE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Ώÿμόÿÿÿÿ8¦‹ϊπ1J$ebc9c23a-d441-4a3c-abdd-0b5e69c32fe2
+¤	java:S116	"]Rename this field "TARGET_TEMPERATURE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦«ÿÿÿÿÿ8§‹ϊπ1J$5fdd7497-3f98-40ce-86ac-0e759ccb102f
+	java:S116
+"]Rename this field "DANGER_TEMPERATURE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ΨΤ²8§‹ϊπ1J$d4cbbe1d-bde9-44d7-b0e6-d08f4ccb9686
+i
+java:S1170"!Make this final field static too.(‡Ώÿμόÿÿÿÿ8©‹ϊπ1J$fa039f53-5540-4666-b21f-1119495bf424
+i
+java:S1170	"!Make this final field static too.(¦«ÿÿÿÿÿ8ª‹ϊπ1J$6d8c28a2-4ad3-4f16-924f-3f6cd36d4765
+d
+java:S1170
+"!Make this final field static too.(‡ΨΤ²8«‹ϊπ1J$dd5aa6d9-860f-4ed2-817d-5d42f595b715
+~
+java:S1068	"6Remove this unused "TARGET_TEMPERATURE" private field.(¦«ÿÿÿÿÿ8Σεϊπ1J$6388ead6-2ab8-428c-8e11-75d5fb4157c8
