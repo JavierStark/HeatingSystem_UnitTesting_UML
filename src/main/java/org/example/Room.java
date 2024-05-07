@@ -8,6 +8,7 @@ public class Room implements Measurable, Tickable{
     public Room(Valve valve){
         this.valve = valve;
         this.thermostat = new Thermostat();
+        this.temperature = 15;
     }
 
     public void tick(){
@@ -21,7 +22,7 @@ public class Room implements Measurable, Tickable{
     }
 
     public void setTemperature(int targetTemp){
-        thermostat.setTemperature(targetTemp);
+        thermostat.setTemperature(targetTemp, this.temperature);
     }
 
     public int getTemperature() {
