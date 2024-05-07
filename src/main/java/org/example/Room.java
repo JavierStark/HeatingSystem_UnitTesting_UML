@@ -5,9 +5,9 @@ public class Room implements Measurable, Tickable{
     private final Thermostat thermostat;
     private int temperature;
 
-    public Room(Valve valve){
+    public Room(Valve valve, CentralizedSystem cs){
         this.valve = valve;
-        this.thermostat = new Thermostat();
+        this.thermostat = new Thermostat(cs);
         this.temperature = 15;
     }
 

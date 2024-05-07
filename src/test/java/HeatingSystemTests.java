@@ -98,7 +98,7 @@ public class HeatingSystemTests {
     @Test
     public void roomClosesValveWhenNoHeat() {
         var valve = mock(Valve.class);
-        var sut = new Room(valve);
+        var sut = new Room(valve,CS);
         sut.tick();
         verify(valve).close();
     }
@@ -106,7 +106,7 @@ public class HeatingSystemTests {
     @Test
     public void roomOpensValveWhenHeat() {
         var valve = mock(Valve.class);
-        var sut = new Room(valve);
+        var sut = new Room(valve,CS);
         sut.setTemperature(20);
         sut.tick();
         verify(valve).open();
@@ -116,55 +116,96 @@ public class HeatingSystemTests {
     public void roomTranspiresTemperature() {
         var valve = mock(Valve.class);
         when(valve.transpire()).thenReturn(10);
-        var sut = new Room(valve);
+        var sut = new Room(valve,CS);
         sut.setTemperature(20);
         sut.tick();
-        assertEquals(1, sut.getTemperature());
+        assertEquals(15 + 1, sut.getTemperature());
     }
 
     @Test
     public void whenANewRequiredTempLowerThanActualIsRecevedRoomDoesNotRequestsHeat() {
         var valve = mock(Valve.class);
-        var sut = new Room(valve);
+        var sut = new Room(valve, CS);
         assertEquals(15, sut.getTemperature());
         sut.setTemperature(0);
-        assertTrue(CS.getRoomsThatNeedHeat());
+        assertEquals(0, CS.getRoomsThatNeedHeat());
     }
 
     @Test
     public void whenANewRequiredTempLowerThanActualIsRecevedRoomClosesValve() {
+        var valve = mock(Valve.class);
+        var sut = new Room(valve, CS);
+        sut.setTemperature(0);
+        sut.tick();
+        verify(valve).close();
     }
 
     @Test
     public void whenANewRequiredTempHigherThanActualIsRecevedRoomRequestsHeat() {
-
+        var valve = mock(Valve.class);
+        var sut = new Room(valve, CS);
+        sut.setTemperature(20);
+        assertEquals(1, CS.getRoomsThatNeedHeat());
     }
 
     @Test
     public void whenANewRequiredTempHigherThanActualIsRecevedRoomOpensValvet() {
-
+        var valve = mock(Valve.class);
+        var sut = new Room(valve, CS);
+        sut.setTemperature(20);
+        sut.tick();
+        verify(valve).open();
     }
 
     @Test
     public void whenTheFirstRoomRequestsHeatBoilerISSwitchedOn (){
-
+        var sut = new Boiler(CS);
+        var valve = mock(Valve.class);
+        var room = new Room(valve, CS);
+        room.setTemperature(20);
+        room.tick();
+        sut.tick();
+        assertTrue(sut.getState());
     }
     @Test
     public void whenTheLastRoomRequestingHeatIsWarmBoilerISSwitchedOff (){
-        
+        var sut = new Boiler(CS);
+        var valve = mock(Valve.class);
+        var room = new Room(valve, CS);
+        room.setTemperature(20);
+        for (int i = 0; i < 5; i++)
+            room.tick();
+        room.setTemperature(0);
+        room.tick();
+        sut.tick();
+        assertFalse(sut.getState());
     }
     @Test
     public void whenTheTemperatureExceedsTheMaximumBoilerISSwitchedOff (){
-
+        var sut = new Boiler(CS);
+        var valve = mock(Valve.class);
+        var room = new Room(valve, CS);
+        room.setTemperature(20);
+        room.tick();
+        for (int i = 0; i < 51; i++)
+            sut.tick();
+        assertFalse(sut.getState());
     }
     @Test
     public void whenTheTemperatureIsLowerThanTheOperationTemperatureTheFanIsOff (){
-
+        var measurable = mock(Measurable.class);
+        when(measurable.getTemperature()).thenReturn(0);
+        var sut = new Fan(new Termometer(measurable));
+        sut.tick();
+        assertEquals(0, sut.transpire());
     }
 
-    //wrong
-    // @Test
-    // public void whenTheTemperatureIsHigherThanTheOperationTemperatureTheFanIsOn (){
-
-    // }
+     @Test
+     public void whenTheTemperatureIsHigherThanTheOperationTemperatureTheFanIsOn (){
+        var measurable = mock(Measurable.class);
+        when(measurable.getTemperature()).thenReturn(31);
+        var sut = new Fan(new Termometer(measurable));
+        sut.tick();
+        assertEquals(31, sut.transpire());
+     }
 }

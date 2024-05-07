@@ -10,6 +10,7 @@ public class CentralizedSystem {
     }
     public void dontNeedHeat(){
         roomsThatNeedHeat--;
+        roomsThatNeedHeat = Math.max(0, roomsThatNeedHeat);
     }
     public int getRoomsThatNeedHeat(){
         return roomsThatNeedHeat;
